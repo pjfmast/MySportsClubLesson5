@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -87,6 +90,61 @@ namespace MvcSportsClub.Controllers {
             }
 
             return View(model);
+        }
+
+        // todo lesson 5-04b Add GoogleLogin action
+        [AllowAnonymous]
+        public IActionResult GoogleLogin(string returnUrl) {
+            string redirectUrl = Url.Action("GoogleResponse", "Users",
+                new { ReturnUrl = returnUrl });
+            AuthenticationProperties properties
+                = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+
+            // A ChallengeResult is an ActionResult that when executed, 
+            // challenges the given authentication schemes' handler. 
+            // here:  causes ASP.NET Core Identity to respond to an unauthorized error 
+            //          by redirecting the user to the Google authentication page 
+            // A challenge is basically a way of saying "I don't know who this user is, please verify their identity".
+
+            // todo lesson 5-04c: trigger external login (Google)
+            return new ChallengeResult(GoogleDefaults.AuthenticationScheme,
+                properties);
+        }
+
+        // todo lesson 5-05a: GoogleResponse - handle response from Google authentication service
+        [AllowAnonymous]
+        public async Task<IActionResult> GoogleResponse(string returnUrl = "/") {
+
+            // todo lesson 5-05b: handle response from Google authentication service
+
+            ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null) {
+                return RedirectToAction(nameof(Login));
+            }
+            // todo lesson 5-05c use: signInManager.ExternalLoginSignInAsync:
+            //     Signs in a user via a previously registered third party login, as an asynchronous operation.
+            Microsoft.AspNetCore.Identity.SignInResult result
+                = await signInManager.ExternalLoginSignInAsync(
+                    info.LoginProvider, info.ProviderKey, false);
+
+
+            if (result.Succeeded) {
+                return Redirect(returnUrl);
+            } else {
+                IdentityUser user = new IdentityUser {
+                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
+                };
+                IdentityResult identityResult = await userManager.CreateAsync(user);
+                if (identityResult.Succeeded) {
+                    identityResult = await userManager.AddLoginAsync(user, info);
+                    if (identityResult.Succeeded) {
+                        await signInManager.SignInAsync(user, false);
+                        return Redirect(returnUrl);
+                    }
+                }
+                return AccessDenied(returnUrl);
+            }
         }
 
     }
