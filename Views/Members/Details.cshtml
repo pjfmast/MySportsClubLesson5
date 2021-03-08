@@ -1,0 +1,55 @@
+﻿@model MvcSportsClub.Models.Member
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Member</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartMembership)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartMembership)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Enrollments)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Workout title</th>
+                    <th>Workout location</th>
+                    <th>Workout start</th>
+                </tr>
+                @foreach (var item in Model.Enrollments) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Workout.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Workout.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Workout.StartTime)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

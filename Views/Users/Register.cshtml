@@ -1,0 +1,41 @@
+﻿@model RegisterUserViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+@*todo statements in razor pages werken niet met de Razor style comments
+maar wel op de onderstaande manier*@
+<!-- todo stap 7: Register view: -->
+
+
+    <div class="container">
+        <div class="bg-primary m-1 p-1 text-white"><h4>Register as a new user</h4></div>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+        <form asp-action="Register" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmedPassword"></label>
+                <input class="form-control" asp-for="ConfirmedPassword" />
+                <span asp-validation-for="ConfirmedPassword" class="text-danger"></span>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+    </div>
+    
+
