@@ -56,6 +56,13 @@ namespace MvcSportsClub {
                 });
         }
 
+        // todo lesson 5-1a: installeer Microsoft.AspNetCore.Authentication.Google
+        //  In package manager console: Install-Package Microsoft.AspNetCore.Authentication.Google -Version 5.0.3
+        // todo lesson 5-1b: maak voor Google sign-in een client ID. Zie: https://developers.google.com/identity/sign-in/web/sign-in#before_you_begin
+        // todo lesson 5-2a: enable secret storage voor opslag ClientId en ClientSecret. Zie https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows#enable-secret-storage
+        // todo lesson 5-2b: store ClientId en ClientSecret. Zie https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-3.1#store-google-clientid-and-clientsecret
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env
             , UserManager<IdentityUser> userManager
