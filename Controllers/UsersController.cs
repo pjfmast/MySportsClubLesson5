@@ -115,13 +115,11 @@ namespace MvcSportsClub.Controllers {
         [AllowAnonymous]
         public async Task<IActionResult> GoogleResponse(string returnUrl = "/") {
 
-            // todo lesson 5-05b: handle response from Google authentication service
-
             ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null) {
                 return RedirectToAction(nameof(Login));
             }
-            // todo lesson 5-05c use: signInManager.ExternalLoginSignInAsync:
+            // todo lesson 5-05b use: signInManager.ExternalLoginSignInAsync:
             //     Signs in a user via a previously registered third party login, as an asynchronous operation.
             Microsoft.AspNetCore.Identity.SignInResult result
                 = await signInManager.ExternalLoginSignInAsync(
